@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQSEARCH新标签页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .search-container,
+        .url-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+        }
+        select,
+        input[type="text"],
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        select,
+        input[type="text"] {
+            flex: 1;        }
+        input[type="text"] {
+            margin-right: 10px;        }
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            position: relative;
+            padding: 10px 30px;            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        button .fas.fa-search {
+            margin-left: 10px;
+            color: white;        }
+        button:hover {
+            background-color: #3e8e41;
+        }
+        .instructions {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .fa-search {
+            color: #4CAF50;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="logo">SQSEARCH导航&nbsp;</h1>
+        <div class="search-container">
+            <select id="engineSelect">
+                <option value="bing"><i class="fab fa-bing"></i> Bing</option>
+                <option value="baidu"><i class="fab fa-baidu"></i> Baidu</option>
+                <option value="google"><i class="fab fa-google"></i> Google</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="请输入搜索关键词">
+            <button onclick="searchWithEngine()">搜索 <i class="fas fa-search"></i></button>
+        </div>
+        <div class="url-container">
+            <input type="text" id="urlInput" placeholder="请输入需要访问的网址">
+            <button onclick="navigateToUrl()">访问网址 <i class="fas fa-globe"></i></button>
+        </div>
+        <div class="instructions">
+          <p><i class="fas fa-info-circle"></i> &nbsp;搜索贴士：您可以选择不同的搜索引擎进行搜索，或者直接输入网址访问。</p>
+			<p><i class="fas fa-info-circle"></i> &nbsp;提示：SQSEARCH导航会自动帮助您添加协议头，您可以直接输入网址。</p>
+        </div>
+    </div>
+
+    <script>
+        function searchWithEngine() {
+            var searchQuery = document.getElementById('searchInput').value;
+            var engine = document.getElementById('engineSelect').value;
+            if (searchQuery.trim() !== '') {
+                switch(engine) {
+                    case 'bing':
+                        window.location.href = 'https://cn.bing.com/search?q=' + encodeURIComponent(searchQuery);
+                        break;
+                    case 'baidu':
+                        window.location.href = 'https://www.baidu.com/s?wd=' + encodeURIComponent(searchQuery);
+                        break;
+                    case 'google':
+                        window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(searchQuery);
+                        break;
+                    default:
+                        alert('请选择搜索引擎');
+                }
+            } else {
+                alert('请输入搜索关键词');
+            }
+        }
+
+        function navigateToUrl() {
+            var url = document.getElementById('urlInput').value.trim();
+            if (url !== '') {
+                if (!/^https?:\/\//i.test(url)) {
+                    url = 'https://' + url;
+                }
+                window.location.href = url;
+            } else {
+                alert('请输入网址');
+            }
+        }
+    </script>
+</body>
+</html>
